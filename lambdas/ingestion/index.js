@@ -82,13 +82,13 @@ exports.handler = async (event) => {
             direction: direction
         };
 
-        // const client = new DynamoDBClient({});
-        // const docClient = DynamoDBDocumentClient.from(client);
+        const client = new DynamoDBClient({});
+        const docClient = DynamoDBDocumentClient.from(client);
 
-        // await docClient.send(new PutCommand({
-        //     TableName: TABLE_NAME,
-        //     Item: item
-        // }));
+        await docClient.send(new PutCommand({
+            TableName: TABLE_NAME,
+            Item: item
+        }));
         console.log(item)
 
         return {statusCode: 200, body: "Success"};
@@ -97,6 +97,5 @@ exports.handler = async (event) => {
         return {statusCode: 500, body: JSON.stringify({message: error.message}) };
     }
     
-    
 };
-exports.handler();
+//exports.handler();
