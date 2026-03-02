@@ -29,8 +29,8 @@ class StockPipelineStack(Stack):
         # define ingestion lambda
         ingestion_fn = _lambda.Function(
             self, "IngestionFunction",
-            runtime=_lambda.Runtime.PYTHON_3_11,
-            handler="handler.lambda_handler",
+            runtime=_lambda.Runtime.NODEJS_22_X,
+            handler="index.handler",
             code=_lambda.Code.from_asset("../lambdas/ingestion"),
             environment={
                 "TABLE_NAME": table.table_name,
@@ -54,8 +54,8 @@ class StockPipelineStack(Stack):
         # define the retrieval lambda + api gateway
         retrieval_fn = _lambda.Function(
             self,"RetrievalFunction",
-            runtime=_lambda.Runtime.PYTHON_3_11,
-            handler="handler.lambda_handler",
+            runtime=_lambda.Runtime.NODEJS_22_X,
+            handler="index.handler",
             code=_lambda.Code.from_asset("../lambdas/retrieval"),
             environment={
                 "TABLE_NAME": table.table_name
