@@ -1,6 +1,8 @@
 import os
+from socket import timeout
 from aws_cdk import (
     Stack,
+    Duration,
     aws_dynamodb as dynamodb,
     aws_lambda as _lambda,
     RemovalPolicy,
@@ -35,7 +37,8 @@ class StockPipelineStack(Stack):
             environment={
                 "TABLE_NAME": table.table_name,
                 "STOCK_API_KEY": os.environ.get("STOCK_API_KEY", "")
-            }
+            },
+            timeout=Duration.seconds(120)
         )
 
         # grant lamda access to write into dynamoDB
@@ -45,8 +48,8 @@ class StockPipelineStack(Stack):
         rule = events.Rule(
             self,"DailyStockRule",
             schedule=events.Schedule.cron(
-                hour="21",
-                minute="0"
+                hour="5",
+                minute="1"
             )
         )
         rule.add_target(targets.LambdaFunction(ingestion_fn))
