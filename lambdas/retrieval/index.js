@@ -1,5 +1,5 @@
-const { DynamoDBClient, QueryCommand } = require("@aws-sdk/client-dynamodb");
-const { DynamoDBDocumentClient, ScanCommand} = require("@aws-sdk/lib-dynamodb");
+const { DynamoDBClient} = require("@aws-sdk/client-dynamodb");
+const { DynamoDBDocumentClient, QueryCommand} = require("@aws-sdk/lib-dynamodb");
 
 const TABLE_NAME = process.env.TABLE_NAME;
 
@@ -16,7 +16,7 @@ exports.handler = async (event) => {
                     "#pk" : "pk",
                 },
                 ExpressionAttributeValues: {
-                    ":pkval": "TOP_MOVERS",
+                    ":pkval": "TOP_MOVER",
                 },
                 ScanIndexForward: false,  // descending by data
                 Limit: 7, // grabs 7 records
