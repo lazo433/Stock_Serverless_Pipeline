@@ -18,10 +18,15 @@ class StockPipelineStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
 
         # defin the table
+        # Update: add sort key
         table = dynamodb.Table(
             self, "TopMoversTable",
             table_name="TopMovers",
             partition_key=dynamodb.Attribute(
+                name="pk",
+                type=dynamodb.AttributeType.STRING
+            ),
+            sort_key=dynamodb.Attribute(
                 name="date",
                 type=dynamodb.AttributeType.STRING
             ),
