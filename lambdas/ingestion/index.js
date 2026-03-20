@@ -9,16 +9,16 @@ exports.handler = async (event) => {
 
     try {
         // Handle weekends and holidays
-        const day = new Date().getDay();
-        if( day === 0 || day === 6) {
-            console.log("Weekend - No valid market data returned for this date.");
-            return {statusCode: 200, body: "Weekend - no market data" };
-        }
-
+ 
         const overrideDate = event && event.overrideDate;
         const isoDate = overrideDate || new Date(Date.now() - 86400000).toISOString().slice(0, 10);
         //const isoDate = "2026-02-26"; // for testing. Free version doesn't allow today's data in real time
 
+        const day = new Date(isoDate).getUTCDay();
+        if( day === 0 || day === 6) {
+            console.log("Weekend - No valid market data returned for this date.");
+            return {statusCode: 200, body: "Weekend - no market data" };
+        }
 
         const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
         // fetches the open-close json for each of the stocks in batches due to free version having a 5 api call/min limit
